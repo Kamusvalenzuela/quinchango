@@ -1,52 +1,43 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>QuinChanGO - ¡Jugá y ganá!</title>
-  <style>
-    body { font-family: sans-serif; margin: 0; padding: 0; background: #111; color: #fff; }
-    header { text-align: center; padding: 3rem 1rem; background: #0d0; color: #000; }
-    h1 { font-size: 2.5rem; margin-bottom: 1rem; }
-    section { padding: 2rem 1rem; max-width: 600px; margin: 0 auto; }
-    .card { background: #222; padding: 1.5rem; margin: 1rem 0; border-radius: 10px; }
-    .card h2 { color: #0f0; }
-    footer { text-align: center; padding: 2rem; font-size: 0.9rem; color: #777; }
-    .btn { display: inline-block; background: #0d0; color: #000; padding: 0.75rem 1.5rem; margin-top: 1rem; text-decoration: none; border-radius: 5px; }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuinChanGO - Jugá y Ganá</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header>
     <h1>🎰 QuinChanGO</h1>
-    <p>Jugá con solo $100 y podés ganar hasta $10.000 💸</p>
+    <p>Jugá con $100 y podés ganar hasta $10.000</p>
   </header>
-
-  <section>
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="participants.html">Participantes</a>
+    <a href="winners.html">Ganadores</a>
+    <a href="terms.html">Términos</a>
+  </nav>
+  <div class="container">
     <div class="card">
-      <h2>📋 ¿Cómo participar?</h2>
-      <p>1. Enviá $100 ARS por transferencia a: <b>alias: quinchango.arg</b></p>
-      <p>2. Enviá el comprobante al WhatsApp: <b>+54 9 11 5555-5555</b></p>
-      <p>3. ¡Listo! Ya estás participando.</p>
+      <h2>¿Cómo participar?</h2>
+      <ol>
+        <li>Transferí $100 ARS a <b>alias: quinchango.arg</b>.</li>
+        <li>Enviá comprobante al WhatsApp: <b>+54 9 11 5555-5555</b>.</li>
+        <li>Recibí tu número de ticket y esperá el sorteo.</li>
+      </ol>
+      <a href="participants.html" class="btn">Ver Participantes</a>
     </div>
-
     <div class="card">
-      <h2>🎁 Premios</h2>
+      <h2>Premios</h2>
       <ul>
         <li>💥 Gran Premio (1 en 1000): $10.000 ARS</li>
         <li>🎉 Sale o Sale (diario): $1.000 ARS</li>
         <li>💵 Premios chicos: $500 / $200</li>
       </ul>
     </div>
-
-    <div class="card">
-      <h2>📅 Sorteos</h2>
-      <p>Todos los días a las 20hs por IG Live. Resultados en historias destacadas.</p>
-      <a href="https://instagram.com/quinchango.ar" class="btn" target="_blank">Ver Ganadores</a>
-    </div>
-  </section>
-
+  </div>
   <footer>
-    © 2025 QuinChanGO - Todos los derechos reservados.
+    <p class="footer-note">© 2025 QuinChanGO - Todos los derechos reservados.</p>
   </footer>
 </body>
 </html>

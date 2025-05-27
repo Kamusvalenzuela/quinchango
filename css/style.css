@@ -1,41 +1,82 @@
 /* Reset básico */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, sans-serif;
   background: #111;
   color: #fff;
   line-height: 1.6;
 }
-header, footer {
+
+/* Encabezado y pie */
+header,
+footer {
   background: #0d0;
   color: #000;
   text-align: center;
   padding: 2rem 1rem;
 }
+
+/* Navegación */
 nav {
   background: #222;
   padding: 0.5rem;
   text-align: center;
 }
+
 nav a {
   color: #fff;
   margin: 0 1rem;
   text-decoration: none;
+  font-weight: bold;
 }
+
 nav a:hover {
   text-decoration: underline;
+  color: #0f0;
 }
+
+/* Contenedor general */
 .container {
-  max-width: 800px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-width: 1200px;
   margin: 2rem auto;
   padding: 0 1rem;
 }
+
+/* Área principal y sidebar */
+.main-content {
+  flex: 3;
+  min-width: 0;
+}
+
+.sidebar {
+  flex: 1;
+  min-width: 280px;
+}
+
+/* Tarjetas */
 .card {
   background: #222;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+}
+
+/* Botones */
 .btn {
   display: inline-block;
   background: #0d0;
@@ -44,20 +85,45 @@ nav a:hover {
   text-decoration: none;
   border-radius: 5px;
   margin-top: 1rem;
+  font-weight: bold;
+  transition: background 0.3s ease, color 0.3s ease;
 }
+
 .btn:hover {
-  opacity: 0.9;
+  background: #0f0;
+  color: #111;
 }
+
+/* Tablas */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
 }
+
 table, th, td {
   border: 1px solid #333;
 }
+
 th, td {
   padding: 0.75rem;
   text-align: center;
 }
-.footer-note { font-size: 0.8rem; color: #777; }
+
+/* Footer */
+.footer-note {
+  font-size: 0.8rem;
+  color: #000;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .main-content,
+  .sidebar {
+    width: 100%;
+  }
+}

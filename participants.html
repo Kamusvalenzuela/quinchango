@@ -1,36 +1,84 @@
+<!-- Archivo base: participantes.html / ganadores.html / sorteos.html -->
+<!-- Los siguientes HTMLs están diseñados para funcionar con archivos JSON cargados dinámicamente -->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Participantes - QuinChanGO</title>
-  <link rel=icon href=img/favicon.ico>
+  <title>Participantes y Resultados - QuinChanGO</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="img/favicon.ico">
 </head>
 <body>
-  <header>
-    <h1>🎫 Participantes Registrados</h1>
-  </header>
-  <nav>
-    <a href="index.html">Inicio</a>
-    <a href="participants.html">Participantes</a>
-    <a href="winners.html">Ganadores</a>
-    <a href="terms.html">Términos</a>
-  </nav>
-  <div class="container">
-    <table>
-      <thead>
-        <tr><th>Ticket #</th><th>Nombre/Pseudónimo</th><th>Jugada</th></tr>
-      </thead>
-      <tbody>
-        <!-- Rellenar manual o vía script -->
-        <tr><td>009</td><td>KamusValenzuela</td><td>1-19-29-35-49</td></tr>
-        <tr><td>010</td><td>cryptoKing</td><td>5-10-15-20-25</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <footer>
-    <p class="footer-note">© 2025 QuinChanGO - Todos los derechos reservados.</p>
-  </footer>
+<header style="margin-bottom: 0;">
+  <h1>🎰 QuinChanGO</h1>
+  <p>Registro de participantes actuales y ganadores histórico.</p>
+</header>
+
+<nav style="margin-top: 0;">
+  <a href="index.html">Inicio</a>
+  <a href="participants.html">Participantes y Ganadores</a>
+  <a href="terms.html">Términos</a>
+  <a href="about.html">Quién Soy</a>
+</nav>
+
+<main class="container">
+  <!-- Participantes actuales -->
+  <section class="card">
+    <h2>🎫 Participantes del sorteo actual</h2>
+    <ul id="lista-participantes"></ul>
+  </section>
+
+  <!-- Ganadores -->
+  <section class="card">
+    <h2>🏆 Ganadores</h2>
+    <div id="lista-ganadores"></div>
+    <button onclick="toggleLista('anteriores')">Ver sorteos anteriores</button>
+    <div id="anteriores" style="display: none;"></div>
+  </section>
+</main>
+
+<script>
+  // Carga de Participantes
+  fetch('data/participantes.json')
+          .then(res => res.json())
+          .then(data => {
+            const ul = document.getElementById('lista-participantes');
+            data.forEach(p => {
+              const li = document.createElement('li');
+              li.innerText = `${p.nombre} - Números: ${p.numeros.join(', ')}`;
+              ul.appendChild(li);
+            });
+          });
+
+  // Carga de Ganadores
+  fetch('data/ganadores.json')
+          .then(res => res.json())
+          .then(data => {
+            const actual = document.getElementById('lista-ganadores');
+            const anteriores = document.getElementById('anteriores');
+
+            data.forEach((sorteo, i) => {
+              const div = document.createElement('div');
+              div.classList.add('ganador-card');
+              div.innerHTML = `
+            <strong>Sorteo #${sorteo.id} - ${sorteo.fecha}</strong><br>
+            Pozo: $${sorteo.pozo} - Ganador: ${sorteo.ganador || 'Sin ganador'}
+          `;
+              if (i === 0) actual.appendChild(div);
+              else anteriores.appendChild(div);
+            });
+          });
+
+  function toggleLista(id) {
+    const el = document.getElementById(id);
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  }
+</script>
+
+<footer>
+  <p class="footer-note">© 2025 QuinChanGO - Todos los derechos reservados.</p>
+</footer>
 </body>
 </html>

@@ -6,18 +6,43 @@
   <title>QuinChanGO - Jugá y Ganá</title>
   <link rel="icon" href="img/favicon.ico">
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    // Temporizador configurado para una fecha específica
+    function iniciarTemporizador(fechaObjetivo) {
+      const cuentaRegresiva = setInterval(() => {
+        const ahora = new Date().getTime();
+        const distancia = new Date(fechaObjetivo).getTime() - ahora;
+
+        const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+        const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+
+        document.getElementById("temporizador").innerHTML = dias + "d " + horas + "h " + minutos + "m " + segundos + "s";
+
+        if (distancia < 0) {
+          clearInterval(cuentaRegresiva);
+          document.getElementById("temporizador").innerHTML = "¡Sorteo en curso!";
+        }
+      }, 1000);
+    }
+    // Editar esta fecha para cambiar el sorteo
+    window.onload = function() {
+      iniciarTemporizador("Jun 10, 2025 20:00:00");
+    }
+  </script>
 </head>
 <body>
-<header>
+<header style="margin-bottom: 0;">
   <h1>🎰 QuinChanGO</h1>
-  <p>Con $500 podés ganar hasta <strong>$1.000.000</strong>... ¿Qué esperás para probar suerte?</p>
+  <p>Jugá por un premio real.</p>
 </header>
 
-<nav>
+<nav style="margin-top: 0;">
   <a href="index.html">Inicio</a>
-  <a href="participants.html">Participantes</a>
-  <a href="winners.html">Ganadores</a>
+  <a href="participants.html">Participantes y Ganadores</a>
   <a href="terms.html">Términos</a>
+  <a href="about.html">Quién Soy</a>
 </nav>
 
 <div class="container" style="display: flex; flex-wrap: wrap; gap: 1rem;">
@@ -27,7 +52,6 @@
       <h2>🎟️ ¿Cómo Participar?</h2>
       <ul>
         <li>Transferí <strong>$500 ARS</strong> al alias: <b>QuinChanGo</b> o pagá con este botón: <br>
-          <!-- Botón REAL de MercadoPago, pero envuelto en un contenedor lindo -->
           <div class="btn-action pagar-wrapper">
             <script src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
                     data-preference-id="180958329-cad6ee79-bc7e-477c-b2bd-7a6fc9dffa53"
@@ -39,25 +63,34 @@
           <a href="https://wa.me/5491132109672?text=Hola!%20Acabo%20de%20pagar%20mi%20ticket%20para%20QuinChanGO%20y%20estos%20son%20mis%205%20números%3A%20"
              class="btn-action whatsapp" target="_blank">📲 Enviar comprobante por WhatsApp e incluir tus 5 números</a>
         </li>
+        <li>
+          Tras la confirmación de tu jugada, a los pocos minutos verás tu jugada en el apartado de participantes
+        </li>
       </ul>
     </div>
-
+    <div class="card" id="last-draw">
+      <h2>🎯 Último Sorteo</h2>
+      <p><strong>Fecha:</strong> <span id="last-draw-date">Cargando...</span></p>
+      <p><strong>Números ganadores:</strong> <span id="last-draw-numbers">Cargando...</span></p>
+      <p><strong>Pozo:</strong> <span id="last-draw-pot">Cargando...</span></p>
+      <a href="winners.html" class="btn">Ver Resultados Anteriores</a>
+    </div>
     <div class="card">
       <h2>🏆 Premios</h2>
       <ul>
-        <li>💰 <strong>MEGA Premio (5 aciertos):</strong> $1.010.000 ARS (crece $10.000 cada 10 jugadores)</li>
-        <li>🎯 <strong>GRAN Premio (4 aciertos):</strong> $10.000 ARS</li>
-        <li>🔥 <strong>Sale o Sale:</strong> $1.000 ARS (al mayor acierto del día)</li>
+        <li>💰 <strong>Premio Único:</strong> arranca en $10.000 ARS y crece con cada jugador</li>
+        <li>📈 <strong>Mecánica:</strong> ¡SALE o SALE sí o sí en cada sorteo!</li>
+        <li>🧮 <strong>Transparencia:</strong> De cada $500, $100 van a mantenimiento, $400 al pozo siguiente</li>
       </ul>
     </div>
 
     <div class="card">
       <h2>📊 Estadísticas</h2>
       <ul>
-        <li>👥 <strong>Participantes históricos:</strong> 10</li>
-        <li>📈 <strong>Increm. del MEGA premio:</strong> 10.000$</li>
-        <li>🎫 <strong>Jugadores actuales:</strong> 2</li>
-        <li>💸 <strong>Probabilidad de ganar algo:</strong> 50%</li>
+        <li>👥 <strong>Participantes históricos:</strong> 1</li>
+        <li>💵 <strong>Pozo actual acumulado:</strong> $10.000 ARS</li>
+        <li>📤 <strong>Contribución al pozo próximo:</strong> +$400 por jugada</li>
+        <li>📉 <strong>Gastos de servicio recaudados:</strong> $100</li>
       </ul>
       <a href="participants.html" class="btn">Ver Participantes</a>
     </div>
@@ -69,16 +102,16 @@
       <h2>🔗 Redes & Comunidad</h2>
       <p>¡Unite y enterate de todo al instante!</p>
       <div class="social-buttons">
-      <a href="https://discord.gg/aRP3TpwVgZ" class="btn-social discord" target="_blank">Discord</a>
-      <a href="https://www.facebook.com/quinchango/" class="btn-social facebook" target="_blank">Facebook</a>
-      <a href="https://www.instagram.com/quinchango/" class="btn-social instagram" target="_blank">Instagram</a>
+        <a href="https://discord.gg/aRP3TpwVgZ" class="btn-social discord" target="_blank">Discord</a>
+        <a href="https://www.facebook.com/quinchango/" class="btn-social facebook" target="_blank">Facebook</a>
+        <a href="https://www.instagram.com/quinchango/" class="btn-social instagram" target="_blank">Instagram</a>
       </div>
     </div>
 
     <div class="card">
       <h2>💡 Tips para Ganar</h2>
       <ul>
-        <li>✅ Jugá todos los días, más chances.</li>
+        <li>✅ Cuanto más juegues, más chances de ganar tendrás.</li>
         <li>✅ Compartilo con amigos (más jugadores = más pozo).</li>
         <li>✅ Elegí números variados, ¡probá combinaciones locas!</li>
       </ul>
@@ -86,13 +119,15 @@
 
     <div class="card">
       <h2>📅 Siguiente sorteo</h2>
-      <p><strong>Hoy a las 20:00 hs</strong> en vivo.</p>
+      <p><strong id="temporizador">Cargando...</strong></p>
       <p>Publicamos ganadores en todas nuestras redes.</p>
     </div>
   </div>
 </div>
+
 <footer>
   <p class="footer-note">© 2025 QuinChanGO - Todos los derechos reservados.</p>
 </footer>
 </body>
+<script src="js/lastDraw.js"></script>
 </html>

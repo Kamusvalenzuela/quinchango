@@ -45,7 +45,7 @@
           .then(res => res.json())
           .then(data => {
             const ul = document.getElementById('lista-participantes');
-            data.forEach(p => {
+            data.participantes.forEach(p => {
               const li = document.createElement('li');
               li.innerText = `${p.nombre} - Números: ${p.numeros.join(', ')}`;
               ul.appendChild(li);

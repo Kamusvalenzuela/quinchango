@@ -50,7 +50,6 @@
     let posibles = Array.from({length: 49}, (_, i) => i + 1);
     let numerosSorteados = [];
 
-    // Mezclar array una vez al principio
     for (let i = posibles.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [posibles[i], posibles[j]] = [posibles[j], posibles[i]];
@@ -76,7 +75,49 @@
         const ordenados = [...numerosSorteados].sort((a, b) => a - b);
         const card = document.getElementById('final-card');
         card.style.display = 'block';
-        card.innerHTML = `🎉 <strong>Sorteo finalizado</strong><br><br>Los números sorteados son:<br><br>${ordenados.join(' - ')}`;
+        card.innerHTML = `🎉 <strong>Sorteo finalizado</strong><br><br>Los números sorteados son:<br><br>${ordenados.join(' - ')}<br><br><em>Ganadores...</em>`;
+
+        const URL_PARTICIPANTES = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+            ? '/data/participantes.json'
+            : 'https://quinchango.netlify.app/data/participantes.json';
+
+        fetch(URL_PARTICIPANTES)
+            .then(res => res.json())
+            .then(data => {
+                let maxAciertos = 0;
+                let ganadores = [];
+
+                data.forEach(part => {
+                    const aciertos = part.numeros.filter(n => numerosSorteados.includes(n));
+                    if (aciertos.length > maxAciertos) {
+                        maxAciertos = aciertos.length;
+                        ganadores = [{
+                            nombre: part.nombre,
+                            jugada: part.numeros,
+                            aciertos: aciertos
+                        }];
+                    } else if (aciertos.length === maxAciertos && maxAciertos > 0) {
+                        ganadores.push({
+                            nombre: part.nombre,
+                            jugada: part.numeros,
+                            aciertos: aciertos
+                        });
+                    }
+                });
+
+                if (ganadores.length > 0) {
+                    card.innerHTML += `<br><br>🏆 <strong>Ganador${ganadores.length > 1 ? 'es' : ''} con ${maxAciertos} acierto${maxAciertos !== 1 ? 's' : ''}:</strong><br><br>`;
+                    ganadores.forEach(g => {
+                        card.innerHTML += `${g.nombre} (${g.aciertos.join(', ')})<br>`;
+                    });
+                } else {
+                    card.innerHTML += `<br><br>❌ No hubo ganadores en este sorteo.`;
+                }
+            })
+            .catch(err => {
+                card.innerHTML += `<br><br>⚠️ Error al cargar los participantes.`;
+                console.error("Error al leer participantes.json", err);
+            });
     }
 </script>
 </body>

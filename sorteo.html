@@ -10,6 +10,7 @@
             font-family: monospace;
             text-align: center;
             padding: 2rem;
+            overflow-x: hidden;
         }
         .numbers-container {
             display: flex;
@@ -37,6 +38,29 @@
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+            position: relative;
+            z-index: 2;
+        }
+        .coin {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle at 30% 30%, gold, #cc9900);
+            border-radius: 50%;
+            animation: fall 2s linear infinite;
+            z-index: 1;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
         }
     </style>
 </head>
@@ -75,7 +99,7 @@
         const ordenados = [...numerosSorteados].sort((a, b) => a - b);
         const card = document.getElementById('final-card');
         card.style.display = 'block';
-        card.innerHTML = `🎉 <strong>Sorteo finalizado</strong><br><br>Los números sorteados son:<br><br>${ordenados.join(' - ')}<br><br><em>Ganadores...</em>`;
+        card.innerHTML = `🎉 <strong>Sorteo finalizado</strong><br><br>Los números sorteados son:<br><br>${ordenados.join(' - ')}`;
 
         const URL_PARTICIPANTES = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
             ? '/data/participantes.json'
@@ -84,10 +108,13 @@
         fetch(URL_PARTICIPANTES)
             .then(res => res.json())
             .then(data => {
+                const participantes = data.participantes || data;
+                const premioTotal = data.premio || 0;
+
                 let maxAciertos = 0;
                 let ganadores = [];
 
-                data.forEach(part => {
+                participantes.forEach(part => {
                     const aciertos = part.numeros.filter(n => numerosSorteados.includes(n));
                     if (aciertos.length > maxAciertos) {
                         maxAciertos = aciertos.length;
@@ -106,10 +133,12 @@
                 });
 
                 if (ganadores.length > 0) {
+                    const premioCadaUno = Math.floor(premioTotal / ganadores.length);
                     card.innerHTML += `<br><br>🏆 <strong>Ganador${ganadores.length > 1 ? 'es' : ''} con ${maxAciertos} acierto${maxAciertos !== 1 ? 's' : ''}:</strong><br><br>`;
                     ganadores.forEach(g => {
-                        card.innerHTML += `${g.nombre} (${g.aciertos.join(', ')})<br>`;
+                        card.innerHTML += `${g.nombre} (${g.aciertos.join(', ')}) - 💸 Cobra ${premioCadaUno.toLocaleString('es-AR')} AR$<br>`;
                     });
+                    lanzarMonedas();
                 } else {
                     card.innerHTML += `<br><br>❌ No hubo ganadores en este sorteo.`;
                 }
@@ -118,6 +147,17 @@
                 card.innerHTML += `<br><br>⚠️ Error al cargar los participantes.`;
                 console.error("Error al leer participantes.json", err);
             });
+    }
+
+    function lanzarMonedas() {
+        for (let i = 0; i < 30; i++) {
+            const coin = document.createElement('div');
+            coin.className = 'coin';
+            coin.style.left = Math.random() * 100 + 'vw';
+            coin.style.animationDuration = (1.5 + Math.random()).toFixed(2) + 's';
+            document.body.appendChild(coin);
+            setTimeout(() => coin.remove(), 3000);
+        }
     }
 </script>
 </body>

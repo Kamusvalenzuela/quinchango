@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Participante</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: #0f0;
+            text-align: center;
+            padding: 2rem;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<h1>Agregar Participante</h1>
+<input id="nombre" type="text" placeholder="Nombre"><br>
+<input id="numeros" type="text" placeholder="Números (ej: 5,10,15,20,25)"><br>
+<button onclick="agregar()">Agregar</button>
+<p id="msg"></p>
+
+<script>
+    async function agregar() {
+        const nombre = document.getElementById('nombre').value.trim();
+        const numeros = document.getElementById('numeros').value.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n));
+
+        if (!nombre || numeros.length !== 5) {
+            document.getElementById('msg').textContent = 'Nombre y 5 números válidos requeridos.';
+            return;
+        }
+
+        const res = await fetch('http://localhost:3000/agregar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre, numeros })
+        });
+
+        const result = await res.text();
+        document.getElementById('msg').textContent = result;
+    }
+</script>
+</body>
+</html>

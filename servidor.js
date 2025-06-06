@@ -18,8 +18,16 @@ app.post('/agregar', (req, res) => {
     }
 
     try {
-        const data = fs.existsSync(PARTICIPANTES_PATH) ? JSON.parse(fs.readFileSync(PARTICIPANTES_PATH)) : [];
-        data.push({ nombre, numeros });
+        let data = fs.existsSync(PARTICIPANTES_PATH)
+            ? JSON.parse(fs.readFileSync(PARTICIPANTES_PATH, 'utf8'))
+            : { premio: 0, participantes: [] };
+
+        if (!Array.isArray(data.participantes)) {
+            data.participantes = [];
+        }
+
+        data.participantes.push({ nombre, numeros });
+
         fs.writeFileSync(PARTICIPANTES_PATH, JSON.stringify(data, null, 2));
         res.send('¡Participante agregado!');
     } catch (err) {

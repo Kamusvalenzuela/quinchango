@@ -1,9 +1,9 @@
 fetch('data/sorteos.json')
     .then(res => res.json())
     .then(data => {
-        if (!data || !data.length) return;
+        if (!data || !data.sorteos || !data.sorteos.length) return;
 
-        const ultimo = data[0]; // El más reciente primero
+        const ultimo = data.sorteos[0]; // El más reciente primero
 
         document.getElementById('last-draw-date').textContent = ultimo.fecha;
         document.getElementById('last-draw-numbers').textContent = ultimo.numeros.join(', ');

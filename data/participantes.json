@@ -2,33 +2,13 @@
   "premio": 10000,
   "participantes": [
     {
-      "nombre": "Kamus Valenzuela",
+      "nombre": "Franco Valenzuela",
       "numeros": [
         16,
-        14,
+        19,
         25,
-        29,
-        35
-      ]
-    },
-    {
-      "nombre": "Adriana Cuevas",
-      "numeros": [
-        8,
-        10,
-        20,
-        30,
-        45
-      ]
-    },
-    {
-      "nombre": "Miguel Tapia",
-      "numeros": [
-        13,
-        23,
-        5,
-        48,
-        36
+        28,
+        29
       ]
     }
   ]

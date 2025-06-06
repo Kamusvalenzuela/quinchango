@@ -5,10 +5,20 @@
       "nombre": "Franco Valenzuela",
       "numeros": [
         16,
-        19,
+        17,
         25,
         28,
         29
+      ]
+    },
+    {
+      "nombre": "Alejandra Cuevas",
+      "numeros": [
+        24,
+        29,
+        35,
+        39,
+        40
       ]
     }
   ]

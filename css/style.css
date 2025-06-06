@@ -182,6 +182,20 @@ th, td {
   box-shadow: 0 0 10px #25D366;
 }
 
+.ver-sorteos {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.ver-sorter:hover {
+  background-color: #29502a;
+}
+
 .btn-action.whatsapp:hover {
   box-shadow: 0 0 15px #25D366, 0 0 25px #25D366;
 }

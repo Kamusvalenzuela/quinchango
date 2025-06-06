@@ -32,10 +32,15 @@
 
   <!-- Ganadores -->
   <section class="card">
-    <h2>🏆 Ganadores</h2>
+    <h2>🏆 Ganadores históricos</h2>
     <div id="lista-ganadores"></div>
-    <button onclick="toggleLista('anteriores')">Ver sorteos anteriores</button>
+    <button class="ver-sorteos" onclick="toggleLista('anteriores')">Ver sorteos anteriores</button>
     <div id="anteriores" style="display: none;"></div>
+  </section>
+  
+  <section class="card">
+    <h2>🎲 Sorteos previos</h2>
+    <div id="lista-sorteos"></div>
   </section>
 </main>
 
@@ -52,7 +57,7 @@
             });
           });
 
-  // Carga de Ganadores
+  // Carga de Ganadores (compatible con múltiples ganadores por sorteo)
   fetch('data/ganadores.json')
           .then(res => res.json())
           .then(data => {
@@ -62,15 +67,34 @@
             data.forEach((sorteo, i) => {
               const div = document.createElement('div');
               div.classList.add('ganador-card');
+
+              const ganadoresStr = sorteo.ganadores.map(g => `${g.nombre} ($${g.monto})`).join(', ');
+
               div.innerHTML = `
-            <strong>Sorteo #${sorteo.id} - ${sorteo.fecha}</strong><br>
-            Pozo: $${sorteo.pozo} - Ganador: ${sorteo.ganador || 'Sin ganador'}
-          `;
+        <strong>Sorteo #${i + 1} - ${new Date(sorteo.fecha).toLocaleDateString()}</strong><br>
+        Ganador${sorteo.ganadores.length > 1 ? 'es' : ''}: ${ganadoresStr}
+      `;
+
               if (i === 0) actual.appendChild(div);
               else anteriores.appendChild(div);
             });
           });
 
+  // Carga de Sorteos
+  fetch('data/sorteos.json')
+          .then(res => res.json())
+          .then(data => {
+            const listaSorteos = document.getElementById('lista-sorteos');
+            data.forEach((sorteo, i) => {
+              const div = document.createElement('div');
+              div.classList.add('sorteo-card');
+              div.innerHTML = `
+        <strong>Sorteo #${i + 1} - ${new Date(sorteo.fecha).toLocaleString()}</strong><br>
+        Números: ${sorteo.numeros.join(', ')}
+      `;
+              listaSorteos.appendChild(div);
+            });
+          });
   function toggleLista(id) {
     const el = document.getElementById(id);
     el.style.display = el.style.display === 'none' ? 'block' : 'none';

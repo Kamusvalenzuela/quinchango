@@ -1,15 +1,4 @@
 {
-  "premio": 10000,
-  "participantes": [
-    {
-      "nombre": "Alejandra Cuevas",
-      "numeros": [
-        24,
-        29,
-        35,
-        39,
-        40
-      ]
-    }
-  ]
+  "premio": 5400,
+  "participantes": []
 }
